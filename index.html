@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ivatan Stay - Batanes Hotel Booking</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header>
+    <h1>Ivatan Stay</h1>
+    <p>Experience the scenic beauty of Batanes</p>
+</header>
+
+<main>
+    <section class="booking-controls">
+        <div class="date-picker">
+            <div class="input-group">
+                <label for="checkin">Check-in Date:</label>
+                <input type="date" id="checkin" />
+            </div>
+            <div class="input-group">
+                <label for="checkout">Check-out Date:</label>
+                <input type="date" id="checkout" />
+            </div>
+        </div>
+
+        <div class="summary-section">
+            <p id="total-nights-summary">Select dates to calculate your stay.</p>
+            <p id="date-error" class="error-text hidden">
+                Error: Check-out date must be later than Check-in date.
+            </p>
+        </div>
+
+        <div class="filter-group">
+            <button class="filter-btn active" data-location="All">All Locations</button>
+            <button class="filter-btn" data-location="Basco">Basco</button>
+            <button class="filter-btn" data-location="Mahatao">Mahatao</button>
+        </div>
+    </section>
+
+    <section class="hotel-grid" id="hotel-grid"></section>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
