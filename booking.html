@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Confirm Booking - Ivatan Stay</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        .booking-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            animation: fadeInSlideUp 0.6s ease forwards;
+        }
+        .booking-details {
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: var(--light-blue);
+            border-radius: 8px;
+        }
+        .booking-details p {
+            margin: 0.5rem 0;
+            font-size: 1.1rem;
+        }
+        .total-price {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--primary-green);
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #ccc;
+        }
+        .confirm-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+        .confirm-btn:hover {
+            background: #21867a;
+        }
+        .confirm-btn:active {
+            transform: scale(0.98);
+        }
+        .success-message {
+            display: none;
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2rem;
+            background: var(--light-green);
+            border-radius: 8px;
+            color: var(--dark-blue);
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Complete Your Booking</h1>
+    <p>Review your details before confirming</p>
+</header>
+
+<main>
+    <div class="booking-container" id="booking-container">
+        <h2>Booking Summary</h2>
+        <div class="booking-details" id="booking-details">
+            <p>Loading details...</p>
+        </div>
+        <button class="confirm-btn" id="confirm-btn">Confirm Booking</button>
+        <a href="index.html" class="back-link">← Back to Hotels</a>
+    </div>
+
+    <div class="success-message" id="success-message">
+        <h2>🎉 Booking Confirmed!</h2>
+        <p>Thank you for choosing Ivatan Stay. Your reservation is secured.</p>
+        <a href="index.html" class="back-link">Return to Home</a>
+    </div>
+</main>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const params = new URLSearchParams(window.location.search);
+        const name = params.get('name');
+        const location = params.get('location');
+        const checkin = params.get('checkin');
+        const checkout = params.get('checkout');
+        const nights = params.get('nights');
+        const price = params.get('price');
+
+        const detailsContainer = document.getElementById("booking-details");
+        const confirmBtn = document.getElementById("confirm-btn");
+        const bookingContainer = document.getElementById("booking-container");
+        const successMessage = document.getElementById("success-message");
+
+        if (!name || !checkin || !checkout) {
+            detailsContainer.innerHTML = "<p class='error-text'>Invalid booking data. Please return to the home page.</p>";
+            confirmBtn.style.display = "none";
+            return;
+        }
+
+        detailsContainer.innerHTML = `
+            <p><strong>Hotel:</strong> ${name}</p>
+            <p><strong>Location:</strong> ${location}</p>
+            <p><strong>Check-in:</strong> ${checkin}</p>
+            <p><strong>Check-out:</strong> ${checkout}</p>
+            <p><strong>Duration:</strong> ${nights} night(s)</p>
+            <p class="total-price">Total Price: ₱${Number(price).toLocaleString()}</p>
+        `;
+
+        confirmBtn.addEventListener("click", () => {
+            confirmBtn.textContent = "Processing...";
+            confirmBtn.disabled = true;
+            
+            setTimeout(() => {
+                bookingContainer.style.display = "none";
+                document.querySelector("header h1").textContent = "Success";
+                document.querySelector("header p").textContent = "We look forward to hosting you!";
+                successMessage.style.display = "block";
+            }, 800);
+        });
+    });
+</script>
+
+</body>
+</html>

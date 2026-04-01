@@ -292,10 +292,17 @@ main {
     margin-top: auto;
 }
 
-.book-btn:hover {
+.book-btn:hover:not(:disabled) {
     background: var(--primary-blue-hover);
 }
 
-.book-btn:active {
+.book-btn:active:not(:disabled) {
     transform: scale(0.98);
+}
+
+.book-btn:disabled {
+    background: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+    box-shadow: none;
 }

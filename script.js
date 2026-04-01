@@ -71,11 +71,15 @@ function setupEventListeners() {
 }
 
 function filterAndRenderHotels() {
-    let filtered = state.selectedLocation === "All"
-        ? hotelsData
-        : hotelsData.filter(h => h.location === state.selectedLocation);
+    hotelGrid.innerHTML = "<div style='text-align:center;width:100%;grid-column:1/-1;font-size:1.2rem;color:var(--text-muted);'>Loading available hotels...</div>";
+    
+    setTimeout(() => {
+        let filtered = state.selectedLocation === "All"
+            ? hotelsData
+            : hotelsData.filter(h => h.location === state.selectedLocation);
 
-    renderHotels(filtered);
+        renderHotels(filtered);
+    }, 400); // Simulate network latency
 }
 
 function renderHotels(hotels) {
@@ -115,16 +119,30 @@ function renderHotels(hotels) {
                     <span class="price-val">₱${formattedPrice}</span> <span class="per-night">/ night</span>
                 </div>
                 ${totalPriceHtml}
-                <button class="book-btn">Book Now</button>
+                <button class="book-btn" ${state.totalNights > 0 ? "" : "disabled"} title="${state.totalNights > 0 ? '' : 'Please select check-in and check-out dates'}">
+                    ${state.totalNights > 0 ? "Book Now" : "Select Dates First"}
+                </button>
             </div>
         `;
 
         const bookBtn = card.querySelector(".book-btn");
         bookBtn.addEventListener("click", () => {
             if (state.totalNights > 0) {
-                alert(`Redirecting to booking system for ${hotel.name}...`);
-            } else {
-                alert(`Please select valid check-in and check-out dates to book ${hotel.name}.`);
+                const bookBtnEl = card.querySelector(".book-btn");
+                bookBtnEl.textContent = "Processing...";
+                
+                const urlParams = new URLSearchParams({
+                    name: hotel.name,
+                    location: hotel.location,
+                    price: hotel.pricePerNight * state.totalNights,
+                    checkin: state.checkInDate,
+                    checkout: state.checkOutDate,
+                    nights: state.totalNights
+                });
+                
+                setTimeout(() => {
+                    window.location.href = `booking.html?${urlParams.toString()}`;
+                }, 400); // Wait slightly for interaction visual
             }
         });
 
