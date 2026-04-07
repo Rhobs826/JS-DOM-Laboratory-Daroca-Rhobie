@@ -105,7 +105,6 @@ function renderHotels(hotels) {
 
         card.innerHTML = `
             <div class="hotel-image" style="background-image: url('${hotel.imageUrl}');">
-                <span class="hotel-image-icon">${hotel.imageIcon}</span>
             </div>
             <div class="hotel-info">
                 <div class="hotel-header">
